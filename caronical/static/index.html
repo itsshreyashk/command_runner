@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="px-4 py-2">
+        <input type="text" name="command_typer" id="command_typer" class="px-4 py-2 font-bold focus:outline-blue-800 text-gray-600">
+    </div><br>
+    <span class="bg-black text-gray-200 px-4 py-2 m-1"></span>
+    <script>
+        $(document).ready(function (e) {
+            $("#command_typer").keypress(async function (e) {
+                if (e.keyCode === 13) {
+                    const data = await (await fetch("http://localhost:3000/command"));
+                    console.log(data);
+                } else {
+
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
