@@ -12,17 +12,35 @@
 
 <body>
     <div class="px-4 py-2">
-        <input type="text" name="command_typer" id="command_typer" class="px-4 py-2 font-bold focus:outline-blue-800 text-gray-600">
+        <input type="text" name="command_typer" id="command_typer" class="px-4 py-2 border font-bold focus:outline-blue-800 text-gray-600">
     </div><br>
-    <span class="bg-black text-gray-200 px-4 py-2 m-1"></span>
+    <h1 class="text-2xl font-bold">Raw Command</h1>
+    <div class="p-2">
+        <span id="displayer_raw" class="bg-black text-white px-4 py-2 m-1 text-sm"></span>
+    </div>
+    <h1 class="my-2 font-bold text-2xl">HTML View</h1>
+    <div class="p-2">
+        <span id="displayer_html" class="bg-black text-white px-4 py-2 m-1 text-sm"></span>
+    </div>
     <script>
         $(document).ready(function (e) {
             $("#command_typer").keypress(async function (e) {
                 if (e.keyCode === 13) {
-                    const data = await (await fetch("http://localhost:3000/command"));
-                    console.log(data);
-                } else {
 
+                    const command = document.getElementById("command_typer").value;
+                    const data = await (await fetch("http://localhost:3001/command", {
+                        method : 'POST',
+                        headers : {
+                            'Content-Type': 'application/json'
+                        },
+                        body : JSON.stringify({
+                            command : command
+                        })
+                    })).text();
+                    document.getElementById("displayer_raw").innerText = data;
+                    document.getElementById("displayer_html").innerHTML = data;
+                } else {
+                    NaN;
                 }
             })
         })

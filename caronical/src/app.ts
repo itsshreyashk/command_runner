@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 dotenv.config()
 const app: Application = express();
 const server: http.Server = http.createServer(app);
-const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 3001;
 
 
 function getFileContent(file_path : string) : string {
@@ -38,10 +38,22 @@ app.get('/', (req : Request, res : Response)=> {
 })
 
 
-app.post('/command', (req : Request, res : Response)=> {
+app.post('/command', async (req : Request, res : Response)=> {
     const body : any = req.body;
-    const command = body.command;
-    res.send("lol")
+    const command = (body.command);
+    console.log(command);
+    
+    const answer : any = await( await fetch("http://localhost:3000/run/command", {
+        method : "POST",
+        headers : {
+            "Content-Type" : "application/json"
+        },
+        body : JSON.stringify({
+            command : command
+        })
+    })).text();
+    
+    res.send(answer)
 })
 
 server.listen(PORT, () => {
